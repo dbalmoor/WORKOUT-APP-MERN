@@ -9,6 +9,12 @@ const mongoose = require("mongoose");
 //express
 const app = express();
 
+app.use(express.static(path.join(__dirname, 'frontend/public')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/public', 'index.html'));
+});
+
 const workoutRoutes = require("./routes/workouts");
 
 //middleware
