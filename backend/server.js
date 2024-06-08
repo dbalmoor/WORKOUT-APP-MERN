@@ -9,11 +9,17 @@ const mongoose = require("mongoose");
 //express
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'frontend/public')));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend/public', 'index.html'));
-});
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running...');
+  });
+}
 
 const workoutRoutes = require("./routes/workouts");
 
